@@ -127,7 +127,7 @@ Django project
   and set this to be the default (for Heroku)::
 
     $ cat > requirements.txt
-    -r requirements/base.txt
+    -r base.txt
 
 10. Restructure the ``settings`` module to enable inheritance, settings for
     different environments, etc.
@@ -332,7 +332,7 @@ So lets go ahead and get our files onto the Droplet:
 
 4. Install packages::
     
-    $ pip install requirements/dev_digital_ocean.txt
+    $ pip install -r requirements/dev_digital_ocean.txt
 
 Configure nginx:
 
