@@ -334,6 +334,30 @@ So lets go ahead and get our files onto the Droplet:
     
     $ pip install -r requirements/dev_digital_ocean.txt
 
+  .. note:: You're likely to get the following error on Ubuntu
+     when installing ``psycopg2``:: 
+      
+      creating pip-egg-info/psycopg2.egg-info 
+
+      writing dependency_links to pip-egg-info/psycopg2.egg-info/dependency_links.txt 
+
+      writing pip-egg-info/psycopg2.egg-info/PKG-INFO 
+
+      writing top-level names to pip-egg-info/psycopg2.egg-info/top_level.txt 
+
+      writing manifest file 'pip-egg-info/psycopg2.egg-info/SOURCES.txt' 
+
+      warning: manifest_maker: standard file '-c' not found 
+
+      Error: You need to install postgresql-server-dev-X.Y for building a server-side extension or libpq-dev for building a client-side application.
+
+     Simply install ``libpq-dev``:: 
+
+      $ sudo apt-get update
+      $ sudo apt-get install libpq-dev 
+
+     and try again.
+
 Configure nginx:
 
 1. Create a configuration file ``<nginc_conf>`` in ``/etc/nginx/sites-available``::
@@ -380,6 +404,7 @@ Configure nginx:
 3. Add the symlink to ``/etc/nginx/sites-available/<nginc_conf>`` in 
    ``/etc/nginx/sites-enabled``::
 
+    $ cd /etc/nginx/sites-enabled/
     $ ln -s /etc/nginx/sites-available/<nginc_conf>
 
 4. Restart ``nginx``::
@@ -388,7 +413,7 @@ Configure nginx:
 
 Gunicorn
 
-1. Modify the Gunicorn configuration file::
+1. Modify the Gunicorn configuration file ``/etc/init/gunicorn.conf``::
 
     description "Gunicorn daemon for Django project"
 
