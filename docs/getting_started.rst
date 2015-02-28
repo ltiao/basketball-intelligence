@@ -250,7 +250,7 @@ Django project
 
 17. Commit
 
-Staging at Heroku
+Staging on Heroku
 *****************
 
 1. Create a repository on Heroku::
@@ -280,6 +280,33 @@ Staging at Heroku
 
   which should show the "It worked" Django welcome page.
 
+Refer to the Heroku `Getting Started with Django guide`_ for more information.
+
+Staging on Digital Ocean
+************************
+
+The easiest way to go about this is to create a droplet with Django
+and related libraries (virtualenv, gunicorn, etc) installed and ready 
+to go. Note that this will come with an empty Django project already 
+deployed for us, so the tricky part of deploying our project to this 
+environment is updating the existing configurations to instead host
+our Django application.
+
+1. Create a Droplet (the most economic option will suffice.) 
+   Select the Django on 14.04 application.
+2. 
+
+Resources:
+
+- `How To Install and Configure Django with Postgres, Nginx, and Gunicorn`_
+- `How To Use the Django One-Click Install Image`_
+- `How To Deploy a Local Django App to a VPS`_
+
 .. _official guide: http://docs.python-guide.org/en/latest/starting/install/osx/
 .. _virtualenvwrapper documentation: http://virtualenvwrapper.readthedocs.org/
                                      en/latest/install.html#shell-startup-file 
+.. _Getting Started with Django guide: https://devcenter.heroku.com/articles/
+                                       getting-started-with-django
+.. _`How To Use the Django One-Click Install Image`: https://www.digitalocean.com/community/tutorials/how-to-use-the-django-one-click-install-image
+.. _`How To Install and Configure Django with Postgres, Nginx, and Gunicorn`: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-django-with-postgres-nginx-and-gunicorn
+.. _`How To Deploy a Local Django App to a VPS`: https://www.digitalocean.com/community/tutorials/how-to-deploy-a-local-django-app-to-a-vps

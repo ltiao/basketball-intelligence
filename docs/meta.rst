@@ -1,9 +1,16 @@
 Meta-Documentation
 ==================
 
-This page documents the documentation. How very meta.
+This page documents the documentation. How very meta. Sphinx is used
+to document this project. Since documentation will mostly be written
+and built from the local development environment, we simply ensure
+that the latest version of ``Sphinx`` is included in 
+``<repo_root>/requirements/local.txt``. It does not need to be included
+in ``base.txt``.    
 
-This documentation was created using the ``sphinx-quickstart`` command.
+This documentation was created using the ``sphinx-quickstart`` command, 
+and lives at ``<repo_root>/doc``.
+
 Refer to the following to see the options selected at the time of creation::
 
   $ sphinx-quickstart

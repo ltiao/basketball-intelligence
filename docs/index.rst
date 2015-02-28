@@ -1,10 +1,10 @@
-.. NBA Statistics documentation master file, created by
+.. Basketball Intelligence documentation master file, created by
    sphinx-quickstart on Sat Feb 28 12:37:49 2015.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to NBA Statistics's documentation!
-==========================================
+Welcome to Basketball Intelligence's documentation!
+===================================================
 
 Contents:
 
