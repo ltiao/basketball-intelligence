@@ -6,9 +6,13 @@ Show list of packages not in ``base.txt``::
 
 	$ pip freeze | diff requirements/base.txt - | grep '>' | cut -d " " -f 2
 
-The Digital Ocean ``gunicorn`` log is located at::
+The ``gunicorn`` logs are located at::
 
 	/var/log/upstart/gunicorn.log
+
+The ``nginx`` logs are located at::
+
+	/var/log/nginx
 
 The Digital Ocean ``gunicorn`` configuration is located at::
 

@@ -330,7 +330,8 @@ So lets go ahead and get our files onto the Droplet:
     $ virtualenv /opt/<env_name>
     $ source /opt/<env_name>/bin/activate
 
-4. Install packages::
+4. First make sure ``gevent==1.0.1`` is in ``requirements/dev_digital_ocean.txt``
+   and install::
     
     $ pip install -r requirements/dev_digital_ocean.txt
 
