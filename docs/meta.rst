@@ -9,7 +9,7 @@ that the latest version of ``Sphinx`` is included in
 in ``base.txt``.    
 
 This documentation was created using the ``sphinx-quickstart`` command, 
-and lives at ``<repo_root>/doc``.
+and lives at ``<repo_root>/docs``.
 
 Refer to the following to see the options selected at the time of creation::
 

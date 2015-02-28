@@ -290,11 +290,134 @@ and related libraries (virtualenv, gunicorn, etc) installed and ready
 to go. Note that this will come with an empty Django project already 
 deployed for us, so the tricky part of deploying our project to this 
 environment is updating the existing configurations to instead host
-our Django application.
+our Django application. The configuration details are provided in 
+`How To Use the Django One-Click Install Image`_. We basically have
+to reconcile the differences between this tutorial and 
+`How To Install and Configure Django with Postgres, Nginx, and Gunicorn`_.
 
 1. Create a Droplet (the most economic option will suffice.) 
    Select the Django on 14.04 application.
-2. 
+2. Login to the Droplet with root credentials, which should
+   have been emailed to you. (You will be immediately prompted
+   to change this password.)
+
+A couple of things to note at this stage:
+
+- The empty Django project is located at ``/home/django/``.
+- Git is not installed
+- Virtual Environments are not used by this project at all
+- The latter tutorial suggests that the virtual environment
+  and Django project be located at ``/opt/``. This is not 
+  a bad idea since the ``opt`` directory is intended for 
+  additional software we may wish to install.
+
+So lets go ahead and get our files onto the Droplet:
+
+1. Install ``git``::
+
+    $ sudo apt-get install git
+
+2. Clone our project. This can either be located in ``/opt``
+   under a virtual environment directory, which some 
+   people seem to prefer, or in ``/home``, with the existing
+   Django project. I prefer the latter::
+
+    $ cd /home
+    $ git clone <repo_url> <repo_root>
+
+3. Create a virtual environment::
+
+    $ virtualenv /opt/<env_name>
+    $ source /opt/<env_name>/bin/activate
+
+4. Install packages::
+    
+    $ pip install requirements/dev_digital_ocean.txt
+
+Configure nginx:
+
+1. Create a configuration file ``<nginc_conf>`` in ``/etc/nginx/sites-available``::
+
+    upstream app_server {
+        server 127.0.0.1:9000 fail_timeout=0;
+    }
+
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server ipv6only=on;
+
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+
+        client_max_body_size 4G;
+        server_name _;
+
+        keepalive_timeout 5;
+
+        # Your Django project's media files - amend as required
+        location /media  {
+            alias <repo_root>/<django_project_root>/media;
+        }
+
+        # your Django project's static files - amend as required
+        location /static {
+            alias <repo_root>/<django_project_root>/static; 
+        }
+
+        location / {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+            proxy_pass http://app_server;
+        }
+    }
+
+2. Remove the existing symlink ``django`` to ``/etc/nginx/sites-available/django``
+   from ``/etc/nginx/sites-enabled``::
+
+    $ rm /etc/nginx/sites-enabled/django
+
+3. Add the symlink to ``/etc/nginx/sites-available/<nginc_conf>`` in 
+   ``/etc/nginx/sites-enabled``::
+
+    $ ln -s /etc/nginx/sites-available/<nginc_conf>
+
+4. Restart ``nginx``::
+
+    $ sudo service nginx restart
+
+Gunicorn
+
+1. Modify the Gunicorn configuration file::
+
+    description "Gunicorn daemon for Django project"
+
+    start on (local-filesystems and net-device-up IFACE=eth0)
+    stop on runlevel [!12345]
+
+    # If the process quits unexpectadly trigger a respawn
+    respawn
+
+    setuid django
+    setgid django
+    chdir /home/<repo_root>
+
+    env DJANGO_SETTINGS_MODULE=nba_stats.settings.<settings_file>
+
+    exec /opt/<env_name>/bin/gunicorn \
+        --name=<dj_project_name> \
+        --pythonpath=<dj_project_name> \
+        --bind=0.0.0.0:9000 \
+        --config /etc/gunicorn.d/gunicorn.py \
+        <dj_project_name>.wsgi:application
+
+2. Force reload Upstart configuration file::
+
+    $ initctl reload-configuration
+
+3. Restart ``gunicorn``::
+
+    $ service gunicorn restart
 
 Resources:
 
