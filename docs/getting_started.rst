@@ -451,6 +451,24 @@ Resources:
 - `How To Use the Django One-Click Install Image`_
 - `How To Deploy a Local Django App to a VPS`_
 
+Automating with Fabric
+**********************
+
+1. Create the ``fabfile`` module. Fabric is capable of loading 
+   Python modules (see `Fabfile Discovery`_), so we create this as
+   a directory containing an ``__init__.py``, since we will include
+   all additional files relating to deployment (e.g. configuration 
+   templates) within this directory::
+     
+     $ mkdir <repo_root>/fabfile
+     $ touch <repo_root>/fabfile/__init__.py
+
+Resources:
+
+- `Fabric execution model`_
+
+.. _Fabric execution model: http://docs.fabfile.org/en/latest/usage/execution.html#how-host-lists-are-constructed
+.. _Fabfile Discovery: http://docs.fabfile.org/en/latest/usage/fabfiles.html#fabfile-discovery
 .. _official guide: http://docs.python-guide.org/en/latest/starting/install/osx/
 .. _virtualenvwrapper documentation: http://virtualenvwrapper.readthedocs.org/
                                      en/latest/install.html#shell-startup-file 
